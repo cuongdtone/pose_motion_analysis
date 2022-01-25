@@ -424,7 +424,7 @@ def try_pose_estimation_in_an_image(image_bgr, detector, estimator, output_shape
 
 
 def perform_measure(video_path, detector, estimator, output_shape=(128, 96),
-                               wanted_joints=None, scale=1.0, output_path=None, time_stamp=1, step_frame = 1):
+                               wanted_joints=None, scale=1.0, output_path=None, time_stamp=1, step_frame = 1, frames_analysic = 64):
     cap = cv2.VideoCapture(video_path)
     time.sleep(1)  ### letting the camera autofocus
 
@@ -436,13 +436,13 @@ def perform_measure(video_path, detector, estimator, output_shape=(128, 96),
     if output_path is not None:
         num_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = int(cap.get(5))
+        print("FPS of video: ", fps/ step_frame)
         fourcc = cv2.VideoWriter_fourcc(*'MP4V')
         video_writer = cv2.VideoWriter(output_path, fourcc, fps, (new_width, new_height))
     else:
         num_frames = 2
     # inittial analysic
     mat_feature = []
-    frames_analysic = 64
     last_time = 0
     last_frame = -step_frame
     # -------------------------------------------------
